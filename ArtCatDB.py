@@ -5,12 +5,16 @@ db = SqliteDatabase('ArtCat.sqlite')
 class Art(Model):
     class Meta:
         database = db
+        constraints = [SQL('UNIQUE(name COLLATE NOCASE)')]
 
     artist = CharField()
     name = CharField()
     price = DoubleField()
-    availble = BooleanField()
+    available = BooleanField()
 
+    def __str__(self):
+        available_status = 'is' if self.available else 'is not'
+        return f'ID {self.id}, Name: {self.name}, Artist: {self.artist} Price: {self.price}. This piece {available_status} available to buy.'
 
 class Artist(Model):
     class Meta:
@@ -19,8 +23,11 @@ class Artist(Model):
     name = CharField()
     email_address = CharField()
 
+     def __str__(self):
+        return f'ID {self.id}, Name: {self.name}, Email: {self.email_address}'
 
-db.connect()
+
+#db.connect()
 
 """"db.create_tables([Artist])
 Sethany = Artist.create(name = 'Sethany Jeffimmons', email_address = 'Seffimmons@artmail.com')

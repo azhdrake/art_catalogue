@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}  
+    <table>
+        <tr>
+            <th>Artwork Name</th>
+            <th>Artist</th>
+            <th>Price</th>
+            <th>Availability</th>
+        </tr>
+        {% for art in art_list %}
+            <tr>
+                <td>{{art.name}}</td>
+                <td>{{art.artist}}</td>
+                <td>${{art.price}}</td>
+                {% if art.available == True %}
+                    <td>Available</td>
+                {% else %}
+                    <td>Unavailable</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>     
+{% endblock content %}  

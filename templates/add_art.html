@@ -19,10 +19,10 @@
             </div>
             <div>
                 {{ form.artist.label() }}
-                {% if form.name.errors %}
-                    {{form.name()}}
+                {% if form.artist.errors %}
+                    {{form.artist()}}
                     <div>
-                        {% for error in form.name.errors %}
+                        {% for error in form.artist.errors %}
                             <span>{{error}}</span>
                         {% endfor %}
                     </div>

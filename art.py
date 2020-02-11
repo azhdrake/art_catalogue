@@ -1,10 +1,11 @@
 from ArtCatDB import Art
+from peewee import IntegrityError
 
 def add_art(art):
     try:
         art.save()
         return True
-    except peewee.IntegrityError:
+    except IntegrityError:
         return False
 
 def get_all_art():

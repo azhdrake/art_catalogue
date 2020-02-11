@@ -2,17 +2,6 @@ from peewee import *
 
 db = SqliteDatabase('ArtCat.sqlite')
 
-class Artist(Model):
-    class Meta:
-        database = db
-        constraints = [SQL('UNIQUE(name COLLATE NOCASE)')]
-
-    name = CharField()
-    email_address = CharField()
-
-    def __str__(self):
-        return f'ID {self.id}, Name: {self.name}, Email: {self.email_address}'
-
 class Art(Model):
     class Meta:
         database = db
@@ -26,6 +15,17 @@ class Art(Model):
     def __str__(self):
         available_status = 'is' if self.available else 'is not'
         return f'ID {self.id}, Name: {self.name}, Artist: {self.artist} Price: {self.price}. This piece {available_status} available to buy.'
+
+class Artist(Model):
+    class Meta:
+        database = db
+        constraints = [SQL('UNIQUE(name COLLATE NOCASE)')]
+
+    name = CharField()
+    email_address = CharField()
+
+    def __str__(self):
+        return f'ID {self.id}, Name: {self.name}, Email: {self.email_address}'
 
 db.connect()
 

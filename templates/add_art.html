@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}  
+    <form method="POST" action="">
+    {{ form.hidden_tag() }}
+        <fieldset>
+            <legend>Add an Artwork</legend>
+            <div>
+                {{ form.name.label() }}
+                {% if form.name.errors %}
+                    {{form.name()}}
+                    <div>
+                        {% for error in form.name.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.name() }}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.artist.label() }}
+                {% if form.name.errors %}
+                    {{form.name()}}
+                    <div>
+                        {% for error in form.name.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+
+                {% else %}
+                    {{ form.artist() }}
+                {% endif %}
+            </div>
+            <div>
+                {{ form.price.label() }}
+                {% if form.price.errors %}
+                    {{form.price()}}
+                    <div>
+                        {% for error in form.price.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+
+            {% else %}
+                {{ form.price() }}
+            {% endif %}
+            </div>
+        </fieldset>
+        <div>
+            {{ form.submit() }}
+        </div>
+   </form>  
+{% endblock content %}  

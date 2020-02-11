@@ -9,10 +9,20 @@
     <body>
         <div class="page">
             <div class = "sidebar column">
-                This is some test content. This is some test content. This is some test content. This is some test content. This is some test content. This is some test content. This is some test content. This is some test content. This is some test content. This is some test content. This is some test content. This is some test content. This is some test content. This is some test content. This is some test content. This is some test content. 
+                <div class="sidebar-link"><a href="{{ url_for('show_artists') }}">All Artists</a></div>
+                <div class="sidebar-link"><a href="{{ url_for('addartist') }}">Add an Artist</a></div>
+                <div class="sidebar-link"><a href="{{ url_for('show_art') }}">All Works of Art</a></div>
+                <div class="sidebar-link"><a href="{{ url_for('addart') }}">Add a Work of Art</a></div>
             </div>
-            <div class="dummy-column column"> test </div>
+            <div class="dummy-column column"> . </div>
             <div class="content column">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="{{category}}">{{message}}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
                 {% block content %}{% endblock %}
             </div>
         </div>

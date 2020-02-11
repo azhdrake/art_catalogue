@@ -1,5 +1,5 @@
-{% extends "layout.html" %}
-{% block content %}  
+{% extends "display_art.html" %}
+{% block add_art %}  
     <form method="POST" action="">
     {{ form.hidden_tag() }}
         <fieldset>
@@ -50,4 +50,4 @@
             {{ form.submit() }}
         </div>
    </form>  
-{% endblock content %}  
+{% endblock add_art %}  

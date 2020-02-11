@@ -7,7 +7,7 @@ from artist import Artist
 from get_info import ArtInputForm, ArtistInputForm
 
 @app.route('/')
-@app.route('/art', methods=['GET', 'POST'])
+@app.route('/art')
 def show_art():
     art_list = art.get_all_art()
     return render_template('display_art.html', art_list = art_list)
@@ -20,14 +20,19 @@ def show_artists():
 @app.route('/addart', methods=['GET', 'POST'])
 def addart():
     form = ArtInputForm()
+    art_list = art.get_all_art()
     if form.validate_on_submit():
         artwork = Art(name=form.name.data, artist=form.artist.data, price=form.price.data)
         art.add_art(artwork)
-        flash('Your post has been created!', 'success')
-        return redirect(url_for('show_art'))
-    return render_template('add_art.html', title='AddArt', form=form)
+        flash('The new artwork has been added!', 'success')
+    return render_template('add_art.html', title='AddArt', form=form, art_list=art_list)
 
-@app.route('/addartist')
+@app.route('/addartist', methods=['GET', 'POST'])
 def addartist():
     form = ArtistInputForm()
+    if form.validate_on_submit():
+        new_artist = Artist(name=form.name.data, email_address=form.email_address.data)
+        artist.add_artist(new_artist)
+        flash('The new artist has been added!', 'success')
+        return redirect(url_for('show_artists'))
     return render_template('add_artist.html', title='AddArtist', form=form)

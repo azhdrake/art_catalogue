@@ -12,11 +12,14 @@ def get_all_art():
     query = Art.select()
     return list(query)
 
-def change_available(art_id, availability):
+def change_available(art_id):
     art = get_art_by_id(art_id)
     if not art:
         return False
-    art.available = availability
+    if art.available == True:
+        art.available = False
+    else:
+        art.available = True
     art.save()
     return True
 

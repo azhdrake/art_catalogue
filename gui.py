@@ -1,5 +1,5 @@
 from main import app
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 import art
 from art import Art
 import artist
@@ -30,3 +30,25 @@ def addartist():
         flash('The new artist has been added!', 'success')
         artists = artist.get_all_artists()
     return render_template('add_artist.html', title='AddArtist', form=form, artists=artists)
+
+@app.route('/delete_art', methods=['POST'])
+def delete_art():
+    art_form = ArtInputForm()
+    if request.method == 'POST':
+        id_list = request.form.getlist('selected')
+        for art_id in id_list:
+            art.delete_art(art_id)
+        flash('The art has been deleted!', 'success')
+    art_list = art.get_all_art()
+    return render_template('add_art.html', title='AddArt', form=art_form, art_list=art_list)
+
+@app.route('/change_status', methods=['POST'])
+def change_status():
+    art_form = ArtInputForm()
+    if request.method == 'POST':
+        id_list = request.form.getlist('selected')
+        for art_id in id_list:
+            art.change_available(art_id)
+        flash('The deed is done!', 'success')
+    art_list = art.get_all_art()
+    return render_template('add_art.html', title='AddArt', form=art_form, art_list=art_list)

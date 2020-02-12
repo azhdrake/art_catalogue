@@ -1,26 +1,33 @@
 {% extends "layout.html" %}
 {% block content %}  
-    <table>
-        <tr>
-            <th>Artwork ID</th>
-            <th>Artwork Name</th>
-            <th>Artist</th>
-            <th>Price</th>
-            <th>Availability</th>
-        </tr>
-        {% for art in art_list %}
+<form method="POST" action="/change_status">
+    <form method="POST" action="/delete_art">  
+        <table>
             <tr>
-                <td>{{art.id}}</td>
-                <td>{{art.name}}</td>
-                <td>{{art.artist}}</td>
-                <td>${{art.price}}</td>
-                {% if art.available == True %}
-                    <td>Available</td>
-                {% else %}
-                    <td>Unavailable</td>
-                {% endif %}
+                <th>Artwork ID</th>
+                <th>Artwork Name</th>
+                <th>Artist</th>
+                <th>Price</th>
+                <th>Availability</th>
             </tr>
-        {% endfor %}
-    </table> 
-    {% block add_art %}{% endblock add_art %}
+            {% for art in art_list %}
+                <tr>
+                    <td>{{art.id}}</td>
+                    <td>{{art.name}}</td>
+                    <td>{{art.artist}}</td>
+                    <td>${{art.price}}</td>
+                    {% if art.available == True %}
+                        <td>Available</td>
+                    {% else %}
+                        <td>Unavailable</td>
+                    {% endif %}
+                    <td> <input type="checkbox" value="{{art.id}}" name="selected"> </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <button type="Submit"> Delete </button>
+    </form>
+    <button type="Submit"> Change Availability </button>
+</form>
+{% block add_art %}{% endblock add_art %}
 {% endblock content %}  

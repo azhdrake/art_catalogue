@@ -1,19 +1,22 @@
 <!-- Template for the artist table. -->
 {% extends "layout.html" %}
-{% block content %}  
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-        </tr>
-        {% for artist in artists %}
+{% block content %} 
+    <form method="POST" action="/show_artists_art">   
+        <table>
             <tr>
-                <td>{{artist.id}}</td>
-                <td>{{artist.name}}</td>
-                <td>{{artist.email_address}}</td>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
             </tr>
-        {% endfor %}
-    </table> 
+            {% for artist in artists %}
+                <tr>
+                    <td>{{artist.id}}</td>
+                    <td>{{artist.name}}</td>
+                    <td>{{artist.email_address}}</td>
+                    <td> <button name="explore" value="{{artist.id}}"> Explore </button> </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </form>
     {% block add_artist %}{% endblock add_artist %}    
 {% endblock content %}  

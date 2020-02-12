@@ -55,3 +55,10 @@ def modify_art():
         flash('The deed is done!', 'success')
     art_list = art.get_all_art()
     return render_template('add_art.html', title='AddArt', form=art_form, art_list=art_list)
+
+@app.route('/show_artists_art', methods=['POST'])
+def show_artists_art():
+    art_form = ArtInputForm()
+    artist_id = request.form.get('explore')
+    art_list = artist.show_artists_art(artist_id)
+    return render_template('add_art.html', title='AddArt', form=art_form, art_list=art_list)

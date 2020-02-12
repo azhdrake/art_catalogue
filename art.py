@@ -7,7 +7,7 @@ def add_art(art):
     try:
         art.save()
     except IntegrityError:
-        rasie ArtError(f'{art.name} already in system')
+        raise ArtError(f'{art.name} already in system')
 
 def get_all_art():
     query = Art.select()

@@ -23,7 +23,7 @@ def addart():
             art.add_art(artwork)
             flash('The new artwork has been added!', 'success')
             art_list = art.get_all_art()
-        except (art.ArtError):
+        except art.ArtError:
             flash(f'Art piece {artwork.name} has already been added.')
     return render_template('add_art.html', title='AddArt', form=form, art_list=art_list)
 
@@ -58,8 +58,8 @@ def modify_art():
     elif request.form['submit_button'] == 'change':
         id_list = request.form.getlist('selected')
         for art_id in id_list:
-            art.change_available(art_id)
-        flash('The deed is done!', 'success')
+            rows_changed = art.change_available(art_id)
+        flash(f'{rows_changed} pieces of art have had their availability status changed.', 'success')
     art_list = art.get_all_art()
     if request.form['submit_button'] == 'show_available':
         art_list = art.get_art_by_availability()

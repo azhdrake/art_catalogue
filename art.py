@@ -1,4 +1,4 @@
-# The art class.
+# The art class. Talks to the database.
 
 from Models import Art
 from peewee import IntegrityError
@@ -8,6 +8,9 @@ def add_art(art):
         art.save()
     except IntegrityError:
         raise ArtError(f'{art.name} already in system')
+    except Exception as e:
+        print(type(e))
+        raise ArtError(f'That is not an artist in the database')
 
 def get_all_art():
     query = Art.select()
@@ -22,7 +25,6 @@ def change_available(art_id):
     else:
         art.available = True
     art.save()
-    return True
 
 def delete_art(art_id):
     rows_deleted = Art.delete().where(Art.id == art_id).execute()

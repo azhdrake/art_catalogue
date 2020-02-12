@@ -1,4 +1,4 @@
-# The artist class
+# The artist class Talks to the database.
 
 from Models import Artist
 from Models import Art

@@ -20,3 +20,32 @@ body{
     height: 100%;
     background-color: darksalmon;
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+th, td {
+    text-align: left;
+    padding: .5em;
+  }
+
+tr:nth-child(even) {
+    background-color: lightsalmon;
+}
+
+button, .btn {
+    padding: .25em;
+    transition-duration: 0.4s;
+    background-color: lightsalmon;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border: 2px solid lightsalmon;
+}
+  
+button:hover, .btn:hover {
+    background-color: whitesmoke;
+}

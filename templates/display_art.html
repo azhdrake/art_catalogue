@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
-{% block content %}  
-<form method="POST" action="/change_status">
+{% block content %}
     <form method="POST" action="/delete_art">  
         <table>
             <tr>
@@ -25,9 +24,7 @@
                 </tr>
             {% endfor %}
         </table>
-        <button type="Submit"> Delete </button>
+        <button name="submit_button" value="delete" type="Submit"> Delete </button> <button value="change" name="submit_button" type="Submit"> Change Availability </button>
     </form>
-    <button type="Submit"> Change Availability </button>
-</form>
 {% block add_art %}{% endblock add_art %}
 {% endblock content %}  

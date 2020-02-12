@@ -20,11 +20,16 @@ def addart():
     if form.validate_on_submit():
         artwork = Art(name=form.name.data, artist=form.artist.data, price=form.price.data)
         try:
+            artist_id = artist.get_artist_id(form.artist.data)
+            artwork.artist = int(artist_id)
+        except artist.ArtistNotFound:
+            flash(f'Artist not found in our system.', 'error')
+        try:
             art.add_art(artwork)
             flash('The new artwork has been added!', 'success')
             art_list = art.get_all_art()
         except art.ArtError:
-            flash(f'There was an error adding {artwork.name}. Make sure the name is unique and the artist is in our system already.', 'error')
+            flash(f'There was an error adding {artwork.name} by {artwork.artist}. Make sure the name is unique.', 'error')
     return render_template('add_art.html', title='AddArt', form=form, art_list=art_list)
 
 @app.route('/artists', methods=['GET', 'POST'])

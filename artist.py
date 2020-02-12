@@ -10,6 +10,14 @@ def add_artist(artist):
     except IntegrityError:
         raise ArtistError(f'{artist.name} already in system.')
 
+def get_artist_id(artist_name):
+    try:
+        query = Artist.select().where(Artist.name == artist_name)
+        artist_id = list(query)
+        return artist_id[0].id
+    except:
+        raise ArtistNotFound(f'There is no artist {artist.name}')
+
 def get_all_artists():
     query = Artist.select()
     return list(query)
@@ -20,4 +28,7 @@ def show_artists_art(artist_id):
     return list(query)
 
 class ArtistError(Exception):
+    pass
+
+class ArtistNotFound(Exception):
     pass

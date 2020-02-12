@@ -1,6 +1,6 @@
 # The art class.
 
-from ArtCatDB import Art
+from Models import Art
 from peewee import IntegrityError
 
 def add_art(art):

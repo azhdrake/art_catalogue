@@ -1,7 +1,7 @@
 # The artist class
 
-from ArtCatDB import Artist
-from ArtCatDB import Art
+from Models import Artist
+from Models import Art
 from peewee import IntegrityError
 
 def add_artist(artist):

@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}  
+    <table>
+        <tr>
+            <th>Artist ID</th>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        {% for artist in artists %}
+            <tr>
+                <td>{{artist.id}}</td>
+                <td>{{artist.name}}</td>
+                <td>{{artist.email_address}}</td>
+            </tr>
+        {% endfor %}
+    </table> 
+    {% block add_artist %}{% endblock add_artist %}    
+{% endblock content %}  

@@ -6,11 +6,6 @@ import artist
 from artist import Artist
 from get_info import ArtInputForm, ArtistInputForm
 
-@app.route('/artists')
-def show_artists():
-    artists = artist.get_all_artists()
-    return render_template('display_artists.html', artists = artists)
-
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/art', methods=['GET', 'POST'])
 @app.route('/addart', methods=['GET', 'POST'])
@@ -24,13 +19,14 @@ def addart():
         art_list = art.get_all_art()
     return render_template('add_art.html', title='AddArt', form=form, art_list=art_list)
 
-
+@app.route('/artists', methods=['GET', 'POST'])
 @app.route('/addartist', methods=['GET', 'POST'])
 def addartist():
     form = ArtistInputForm()
+    artists = artist.get_all_artists()
     if form.validate_on_submit():
         new_artist = Artist(name=form.name.data, email_address=form.email_address.data)
         artist.add_artist(new_artist)
         flash('The new artist has been added!', 'success')
-        return redirect(url_for('show_artists'))
-    return render_template('add_artist.html', title='AddArtist', form=form)
+        artists = artist.get_all_artists()
+    return render_template('add_artist.html', title='AddArtist', form=form, artists=artists)

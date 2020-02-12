@@ -41,6 +41,7 @@ def addartist():
 def modify_art():
     # Called when a button's pressed in the art page. Checks which button was pressed, if it's delete, it deletes the art.
     # If the button was change, it changes the availablity status of the art.  Then it rerenders the art page.
+    # If the button was show_available, it pulls the art that's available and feeds the page that instead of the full list.
     # TODO add are you sure to delete method
     art_form = ArtInputForm()
     if request.form['submit_button'] == 'delete':
@@ -54,10 +55,13 @@ def modify_art():
             art.change_available(art_id)
         flash('The deed is done!', 'success')
     art_list = art.get_all_art()
+    if request.form['submit_button'] == 'show_available':
+        art_list = art.get_art_by_availability()
     return render_template('add_art.html', title='AddArt', form=art_form, art_list=art_list)
 
 @app.route('/show_artists_art', methods=['POST'])
 def show_artists_art():
+    # Gets artist id from form, plugs it into the artist method and gives add_art.html the resulting artwork list.
     art_form = ArtInputForm()
     artist_id = request.form.get('explore')
     art_list = artist.show_artists_art(artist_id)

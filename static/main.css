@@ -12,13 +12,22 @@ body{
 
 .dummy-column{
     width: 15%;
+    padding: 1em;
+    font-size: 1.25em;
 }
 
 .sidebar{
     position: absolute;
     width: 15%;
     height: 100%;
-    background-color: darksalmon;
+    background-color: lightsalmon;
+    padding: 1em;
+    font-size: 1.25em;
+    font-weight: 500;
+}
+
+a, a:visited {
+    color: blueviolet;
 }
 
 table {

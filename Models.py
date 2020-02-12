@@ -1,6 +1,7 @@
 from peewee import *
 
-db = SqliteDatabase('ArtCat.sqlite')
+db = SqliteDatabase('ArtCat.sqlite', pragmas={'foreign_keys': 1})
+
 
 class Artist(Model):
     class Meta:
@@ -29,7 +30,7 @@ class Art(Model):
 
 db.connect()
 
-db.drop_tables([Art, Artist])
+"""db.drop_tables([Art, Artist])
 
 db.create_tables([Art, Artist])
 
@@ -44,4 +45,4 @@ Belief = Art.create(artist = 1, name = 'Belief', price = 19.99, available = Fals
 Proud = Art.create(artist = 2, name = 'Be Proud For You Are', price = 413.00, available = True)
 Perfection = Art.create(artist = 2, name = 'Perfection is Not Real', price = 612.00, available = False)
 Story = Art.create(artist = 2, name = 'This Isn\'t Your Story, Nor is it Mine', price = 10.25, available = False)
-Jellyfish = Art.create(artist = 3, name = 'Covered In Jellyfish', price = 11.11, available = True)
+Jellyfish = Art.create(artist = 3, name = 'Covered In Jellyfish', price = 11.11, available = True)"""

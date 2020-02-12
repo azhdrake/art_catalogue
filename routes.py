@@ -24,7 +24,7 @@ def addart():
             flash('The new artwork has been added!', 'success')
             art_list = art.get_all_art()
         except art.ArtError:
-            flash(f'Art piece {artwork.name} has already been added.')
+            flash(f'There was an error adding {artwork.name}. Make sure the name is unique and the artist is in our system already.', 'error')
     return render_template('add_art.html', title='AddArt', form=form, art_list=art_list)
 
 @app.route('/artists', methods=['GET', 'POST'])

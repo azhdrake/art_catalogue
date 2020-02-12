@@ -8,9 +8,6 @@ def add_art(art):
         art.save()
     except IntegrityError:
         raise ArtError(f'{art.name} already in system')
-    except Exception as e:
-        print(type(e))
-        raise ArtError(f'That is not an artist in the database')
 
 def get_all_art():
     query = Art.select()

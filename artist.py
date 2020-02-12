@@ -1,11 +1,12 @@
 from ArtCatDB import Artist
 from ArtCatDB import Art
+from peewee import IntegrityError
 
 def add_artist(artist):
     try:
         artist.save()
         return True
-    except peewee.IntegrityError:
+    except IntegrityError:
         return False
 
 def get_all_artists():

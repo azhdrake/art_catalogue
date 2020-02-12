@@ -1,3 +1,7 @@
+<!-- The add artwork form. First renders the display_art art table above. 
+    Displays form errors (if there are errors) on top of the form, then renders the form
+    Any errors that are tied to a specific form field are displayed with that field.  -->
+
 {% extends "display_art.html" %}
 {% block add_art %}  
     <form method="POST" action="">
@@ -7,10 +11,10 @@
             <div>
                 {{ form.name.label() }}
                 {% if form.name.errors %}
-                    {{form.name()}}
+                    {{ form.name() }}
                     <div>
                         {% for error in form.name.errors %}
-                            <span>{{error}}</span>
+                            <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
@@ -20,10 +24,10 @@
             <div>
                 {{ form.artist.label() }}
                 {% if form.artist.errors %}
-                    {{form.artist()}}
+                    {{ form.artist() }}
                     <div>
                         {% for error in form.artist.errors %}
-                            <span>{{error}}</span>
+                            <span>{{ error }}</span>
                         {% endfor %}
                     </div>
 
@@ -34,10 +38,10 @@
             <div>
                 {{ form.price.label() }}
                 {% if form.price.errors %}
-                    {{form.price()}}
+                    {{ form.price() }}
                     <div>
                         {% for error in form.price.errors %}
-                            <span>{{error}}</span>
+                            <span>{{ error }}</span>
                         {% endfor %}
                     </div>
 

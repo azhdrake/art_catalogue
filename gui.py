@@ -13,6 +13,8 @@ from get_info import ArtInputForm, ArtistInputForm
 @app.route('/art', methods=['GET', 'POST'])
 @app.route('/addart', methods=['GET', 'POST'])
 def addart():
+    # Get the input form and the list of all art. Checks if someone submitted the form. If not feeds art to page and displays. 
+    # If someone did submit the form and it's valid, feeds that information to the database, gets the new list of art and refreshes page.
     form = ArtInputForm()
     art_list = art.get_all_art()
     if form.validate_on_submit():
@@ -25,6 +27,7 @@ def addart():
 @app.route('/artists', methods=['GET', 'POST'])
 @app.route('/addartist', methods=['GET', 'POST'])
 def addartist():
+    # It's the same thing as addart but it's artist instead.
     form = ArtistInputForm()
     artists = artist.get_all_artists()
     if form.validate_on_submit():
@@ -34,8 +37,11 @@ def addartist():
         artists = artist.get_all_artists()
     return render_template('add_artist.html', title='AddArtist', form=form, artists=artists)
 
-@app.route('/delete_art', methods=['POST'])
-def delete_art():
+@app.route('/modify_art', methods=['POST'])
+def modify_art():
+    # Called when a button's pressed in the art page. Checks which button was pressed, if it's delete, it deletes the art.
+    # If the button was change, it changes the availablity status of the art.  Then it rerenders the art page.
+    # TODO add are you sure to delete method
     art_form = ArtInputForm()
     if request.form['submit_button'] == 'delete':
         id_list = request.form.getlist('selected')
@@ -47,12 +53,5 @@ def delete_art():
         for art_id in id_list:
             art.change_available(art_id)
         flash('The deed is done!', 'success')
-    art_list = art.get_all_art()
-    return render_template('add_art.html', title='AddArt', form=art_form, art_list=art_list)
-
-@app.route('/change_status', methods=['POST'])
-def change_status():
-    art_form = ArtInputForm()
-    
     art_list = art.get_all_art()
     return render_template('add_art.html', title='AddArt', form=art_form, art_list=art_list)

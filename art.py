@@ -1,12 +1,13 @@
+# The art class.
+
 from ArtCatDB import Art
 from peewee import IntegrityError
 
 def add_art(art):
     try:
         art.save()
-        return True
     except IntegrityError:
-        return False
+        rasie ArtError(f'{art.name} already in system')
 
 def get_all_art():
     query = Art.select()
@@ -15,7 +16,7 @@ def get_all_art():
 def change_available(art_id):
     art = get_art_by_id(art_id)
     if not art:
-        return False
+        return None
     if art.available == True:
         art.available = False
     else:

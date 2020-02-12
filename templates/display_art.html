@@ -1,6 +1,10 @@
+<!--Template for the art table. 
+    On bottom is second form, to monitor the delete and change buttons.
+    When a checkbox is clicked, it stores the id of the art it's associated with. 
+    Clicking one of the submit buttons sends that list of ids and the button's value - change or delete - to gui.py -->
 {% extends "layout.html" %}
 {% block content %}
-    <form method="POST" action="/delete_art">  
+    <form method="POST" action="/modify_art">  
         <table>
             <tr>
                 <th>Artwork ID</th>

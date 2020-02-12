@@ -1,7 +1,5 @@
-from art import Art
-from artist import Artist
-import art
-import artist
+# Main.py: It runs things!™
+
 from flask import Flask
 
 app = Flask(__name__)

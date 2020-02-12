@@ -24,7 +24,7 @@ def get_all_artists():
 
 def show_artists_art(artist_id):
     artist = Artist.get_or_none(Artist.id == artist_id)
-    query = Art.select().join(Artist, on=(Artist.name == Art.artist)).where(Artist.id == artist.id)
+    query = Art.select().join(Artist, on=(Artist.id == Art.artist)).where(Artist.id == artist.id)
     return list(query)
 
 class ArtistError(Exception):

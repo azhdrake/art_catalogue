@@ -27,7 +27,7 @@ body{
 }
 
 a, a:visited {
-    color: blueviolet;
+    color: rgb(54, 0, 155);
 }
 
 table {
@@ -52,7 +52,7 @@ button, .btn {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    border: 2px solid lightsalmon;
+    border: 1px solid rgb(54, 0, 155);
 }
   
 button:hover, .btn:hover {

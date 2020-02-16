@@ -29,6 +29,7 @@ class Art(Model):
         return f'ID {self.id}, Name: {self.name}, Artist: {self.artist} Price: {self.price}. This piece {available_status} available to buy.'
 
 db.connect()
+db.create_tables([Art, Artist])
 
 """db.drop_tables([Art, Artist])
 

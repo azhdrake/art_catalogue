@@ -116,4 +116,25 @@ class TestArt(TestCase):
         art1 = get_art_by_availability()
         self.assertTrue(art1 == [])
 
-    
+    def test_delete_art(self):
+        self.remake_tables()
+
+        Artist.create(name = 'ats1', email_address = 'Seffimmons@artmail.com')
+        art1 = Art(artist = 1, name = 'art1', price = 5)
+        add_art(art1)
+
+        all_art = get_all_art()
+
+        self.assertTrue(all_art != [])
+
+        delete_art(1)
+        all_art = get_all_art()
+
+        self.assertTrue(all_art == [])
+
+    def test_delete_art_doesnt_exist(self):
+        self.remake_tables()
+
+        with self.assertRaises(ArtError):
+            delete_art(5)
+

@@ -57,4 +57,22 @@ class TestArt(TestCase):
 
         with self.assertRaises(ArtError):
             add_art(art1)
+
+    def test_get_all_art(self):
+        self.remake_tables()
+        self.add_test_data()
+
+        all_art = get_all_art()
+
+        self.assertCountEqual([self.art1, self.art2, self.art3], all_art)
+
+    def test_get_by_available(self):
+        self.remake_tables()
+        self.add_test_data()
+
+        all_available = get_art_by_availability()
+
+        self.assertCountEqual([self.art1, self.art2], all_available)
+
+
     

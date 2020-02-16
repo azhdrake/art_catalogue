@@ -143,3 +143,20 @@ class TestArt(TestCase):
         with self.assertRaises(ArtError):
             delete_art(5)
 
+    def test_get_art_by_id(self):
+        self.remake_tables()
+
+        Artist.create(name = 'ats1', email_address = 'Seffimmons@artmail.com')
+        art1 = Art(artist = 1, name = 'art1', price = 5)
+        add_art(art1)
+
+        art1 = get_art_by_id(1)
+
+        self.assertIsNotNone(art1)
+
+    def test_get_art_by_id_that_doesnt_exist(self):
+        self.remake_tables()
+
+        art1 = get_art_by_id(1)
+
+        self.assertIsNone(art1)

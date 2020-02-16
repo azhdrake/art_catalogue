@@ -116,6 +116,11 @@ class TestArt(TestCase):
         art1 = get_art_by_availability()
         self.assertTrue(art1 == [])
 
+    def test_change_status_of_art_that_doest_exist(self):
+        self.remake_tables()
+        with self.assertRaises(ArtError):
+            change_available(1)
+
     def test_delete_art(self):
         self.remake_tables()
 

@@ -75,4 +75,45 @@ class TestArt(TestCase):
         self.assertCountEqual([self.art1, self.art2], all_available)
 
 
+    def test_new_art_available_true(self):
+        self.remake_tables()
+
+        Artist.create(name = 'ats1', email_address = 'Seffimmons@artmail.com')
+        art1 = Art(artist = 1, name = 'art1', price = 5)
+        add_art(art1)
+
+        available_true = get_art_by_availability()
+
+        self.assertEqual(art1, available_true[0])
+
+    def test_change_available_to_true_from_false(self):
+        self.remake_tables()
+
+        Artist.create(name = 'ats1', email_address = 'Seffimmons@artmail.com')
+        art1 = Art(artist = 1, name = 'art1', price = 5, available = False)
+        add_art(art1)
+
+        art1 = get_art_by_availability()
+        self.assertTrue(art1 == [])
+
+        change_available(1)
+
+        art1 = get_art_by_availability()
+        self.assertTrue(art1[0].available)
+
+    def test_change_available_to_false_from_true(self):
+        self.remake_tables()
+
+        Artist.create(name = 'ats1', email_address = 'Seffimmons@artmail.com')
+        art1 = Art(artist = 1, name = 'art1', price = 5, available = True)
+        add_art(art1)
+
+        art1 = get_art_by_availability()
+        self.assertTrue(art1[0].available)
+
+        change_available(1)
+
+        art1 = get_art_by_availability()
+        self.assertTrue(art1 == [])
+
     

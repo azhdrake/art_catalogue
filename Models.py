@@ -1,7 +1,7 @@
 from peewee import *
+from database_config import db_path
 
-db = SqliteDatabase('ArtCat.sqlite', pragmas={'foreign_keys': 1})
-
+db = SqliteDatabase(db_path, pragmas={'foreign_keys': 1})
 
 class Artist(Model):
     class Meta:

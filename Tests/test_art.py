@@ -1,29 +1,161 @@
 from unittest import TestCase
-import peewee
+from peewee import *
+
+import database_config
+database_config.db_path = 'test_db.sqlite'
+database = SqliteDatabase(database_config.db_path, pragmas={'foreign_keys': 1})
+
 from Models import Art, Artist
 from art import *
 
-db = SqliteDatabase('Test_Art.sqlite', pragmas={'foreign_keys': 1})
 
 class TestArt(TestCase):
     def remake_tables(self):
-        db.drop_tables([Art, Artist])
-        db.create_tables([Art, Artist])
+        database.drop_tables([Art, Artist])
+        database.create_tables([Art, Artist])
     
     def add_test_data(self):
-        Sethany = Artist.create(name = 'Sethany Jeffimmons', email_address = 'Seffimmons@artmail.com')
-        Bobrick = Artist.create(name = 'Bobrick Bobberson', email_address = 'Bobs_the_word@artmail.com')
-        Jame = Artist.create(name = 'Jame Hopketon', email_address = 'JameH@artmail.com')
+        self.ats1 = Artist.create(name = 'ats1', email_address = 'Seffimmons@artmail.com')
+        self.ats2 = Artist.create(name = 'ats2', email_address = 'Bobs_the_word@artmail.com')
+        self.ats3 = Artist.create(name = 'ats3', email_address = 'JameH@artmail.com')
 
-        Void = Art.create(artist = 1, name = 'Mostly Void, Partially Stars', price = 0.50, available = True)
-        Dark = Art.create(artist = 1, name = 'Dark, Endless, and Impossible to Sleep Through', price = 50.00, available = True)
-        Belief = Art.create(artist = 1, name = 'Belief', price = 19.99, available = False)
-        Proud = Art.create(artist = 2, name = 'Be Proud For You Are', price = 413.00, available = True)
-        Perfection = Art.create(artist = 2, name = 'Perfection is Not Real', price = 612.00, available = False)
-        Story = Art.create(artist = 2, name = 'This Isn\'t Your Story, Nor is it Mine', price = 10.25, available = False)
-        Jellyfish = Art.create(artist = 3, name = 'Covered In Jellyfish', price = 11.11, available = True)
+        self.art1 = Art.create(artist = 1, name = 'art1', price = 0.50, available = True)
+        self.art2 = Art.create(artist = 1, name = 'art2', price = 50.00, available = True)
+        self.art3 = Art.create(artist = 1, name = 'art3', price = 19.99, available = False)
 
     def test_add_art_with_empty_artist_table(self):
+        self.remake_tables()
         with self.assertRaises(ArtError):
-            Void = Art(artist = 1, name = 'Mostly Void, Partially Stars', price = 0.50)
-            Void.add_art()
+            art1 = Art(artist = 1, name = 'art1', price = 0.50)
+            add_art(art1)
+
+    def test_add_art_with_existing_artist(self):
+        self.remake_tables()
+
+        Sethany = Artist.create(name = 'ats1', email_address = 'Seffimmons@artmail.com')
+        art1 = Art(artist = 1, name = 'art1', price = 0.50)
+        
+        add_art(art1)
+        fetch_art = Art.select().where(Art.name == 'art1')
+
+        self.assertTrue(art1 == fetch_art[0], msg=f'{art1} is not the same as {fetch_art}')
+        
+    def test_add_art_with_ununique_name(self):
+        self.remake_tables()
+        self.add_test_data()
+
+        art1 = Art(artist = 1, name = 'art1', price = 0.50)
+        
+        with self.assertRaises(ArtError):
+            add_art(art1)
+
+    def test_add_art_with_missing_data(self):
+        self.remake_tables()
+
+        art1 = Art(artist = 1, name = 'art1')
+
+        with self.assertRaises(ArtError):
+            add_art(art1)
+
+    def test_get_all_art(self):
+        self.remake_tables()
+        self.add_test_data()
+
+        all_art = get_all_art()
+
+        self.assertCountEqual([self.art1, self.art2, self.art3], all_art)
+
+    def test_get_by_available(self):
+        self.remake_tables()
+        self.add_test_data()
+
+        all_available = get_art_by_availability()
+
+        self.assertCountEqual([self.art1, self.art2], all_available)
+
+
+    def test_new_art_available_true(self):
+        self.remake_tables()
+
+        Artist.create(name = 'ats1', email_address = 'Seffimmons@artmail.com')
+        art1 = Art(artist = 1, name = 'art1', price = 5)
+        add_art(art1)
+
+        available_true = get_art_by_availability()
+
+        self.assertEqual(art1, available_true[0])
+
+    def test_change_available_to_true_from_false(self):
+        self.remake_tables()
+
+        Artist.create(name = 'ats1', email_address = 'Seffimmons@artmail.com')
+        art1 = Art(artist = 1, name = 'art1', price = 5, available = False)
+        add_art(art1)
+
+        art1 = get_art_by_availability()
+        self.assertTrue(art1 == [])
+
+        change_available(1)
+
+        art1 = get_art_by_availability()
+        self.assertTrue(art1[0].available)
+
+    def test_change_available_to_false_from_true(self):
+        self.remake_tables()
+
+        Artist.create(name = 'ats1', email_address = 'Seffimmons@artmail.com')
+        art1 = Art(artist = 1, name = 'art1', price = 5, available = True)
+        add_art(art1)
+
+        art1 = get_art_by_availability()
+        self.assertTrue(art1[0].available)
+
+        change_available(1)
+
+        art1 = get_art_by_availability()
+        self.assertTrue(art1 == [])
+
+    def test_change_status_of_art_that_doest_exist(self):
+        self.remake_tables()
+        with self.assertRaises(ArtError):
+            change_available(1)
+
+    def test_delete_art(self):
+        self.remake_tables()
+
+        Artist.create(name = 'ats1', email_address = 'Seffimmons@artmail.com')
+        art1 = Art(artist = 1, name = 'art1', price = 5)
+        add_art(art1)
+
+        all_art = get_all_art()
+
+        self.assertTrue(all_art != [])
+
+        delete_art(1)
+        all_art = get_all_art()
+
+        self.assertTrue(all_art == [])
+
+    def test_delete_art_doesnt_exist(self):
+        self.remake_tables()
+
+        with self.assertRaises(ArtError):
+            delete_art(5)
+
+    def test_get_art_by_id(self):
+        self.remake_tables()
+
+        Artist.create(name = 'ats1', email_address = 'Seffimmons@artmail.com')
+        art1 = Art(artist = 1, name = 'art1', price = 5)
+        add_art(art1)
+
+        art1 = get_art_by_id(1)
+
+        self.assertIsNotNone(art1)
+
+    def test_get_art_by_id_that_doesnt_exist(self):
+        self.remake_tables()
+
+        art1 = get_art_by_id(1)
+
+        self.assertIsNone(art1)

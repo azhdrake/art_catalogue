@@ -15,8 +15,8 @@ def get_all_art():
 
 def change_available(art_id):
     art = get_art_by_id(art_id)
-    if not art:
-        return None
+    if art == None:
+        raise ArtError
     if art.available == True:
         art.available = False
     else:

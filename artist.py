@@ -16,7 +16,7 @@ def get_artist_id(artist_name):
         artist_id = list(query)
         return artist_id[0].id
     except:
-        raise ArtistNotFound(f'There is no artist {artist.name}')
+        raise ArtistNotFound(f'There is no artist named {artist_name}.')
 
 def get_all_artists():
     query = Artist.select()

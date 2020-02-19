@@ -20,7 +20,7 @@ class TestArtist(TestCase):
 
         self.art1 = Art.create(artist = 1, name = 'art1', price = 0.50, available = True)
         self.art2 = Art.create(artist = 1, name = 'art2', price = 50.00, available = True)
-        self.art3 = Art.create(artist = 1, name = 'art3', price = 19.99, available = False)
+        self.art3 = Art.create(artist = 2, name = 'art3', price = 19.99, available = False)
 
     def test_add_artist_empty_database(self):
         self.remake_tables()
@@ -60,3 +60,44 @@ class TestArtist(TestCase):
         ats1 = Artist(name = 'ats1')
         with self.assertRaises(ArtistError):
             add_artist(ats1)
+
+    def test_get_all_artists(self):
+        self.remake_tables()
+        self.add_test_data()
+
+        artist_list = get_all_artists()
+
+        self.assertCountEqual(artist_list, [self.ats1,self.ats2,self.ats3])
+
+    def test_get_artist_by_id(self):
+        self.remake_tables()
+        
+        ats1 = Artist(name = 'ats1', email_address = 'email@mail.com')
+        add_artist(ats1)
+
+        fetch_artist = get_artist_id('ats1')
+
+        self.assertEqual(ats1.id, fetch_artist)
+
+        
+    def test_get_artist_by_id_empty_artist_table(self):
+        self.remake_tables()
+
+        with self.assertRaises(ArtistNotFound):
+            get_artist_id('ats1')
+
+    def test_get_artist_by_nonexistant_id(self):
+        self.remake_tables()
+
+        ats1 = Artist(name = 'ats1', email_address = 'email@mail.com')
+        add_artist(ats1)
+
+        self.assertEqual(get_artist_id('ats1'), 1)
+
+    def test_show_artists_art(self):
+        self.remake_tables()
+        self.add_test_data()
+
+        art_list = show_artists_art(1)
+
+        self.assertCountEqual([self.art1, self.art2], art_list)
